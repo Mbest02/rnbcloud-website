@@ -1,5 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { services } from '@/lib/content';
+import { deliverGoogleInquiry } from '@/lib/inquiry-email';
+export const runtime = 'nodejs';
+export const maxDuration = 60;
 export async function POST(request: NextRequest) {
   const origin = request.headers.get('origin');
   const allowedOrigins = new Set(['https://rnbcloud.com', 'https://www.rnbcloud.com', 'https://rnbcloud-website.vercel.app']);
@@ -27,12 +30,27 @@ export async function POST(request: NextRequest) {
     if (get('website')) return NextResponse.json({ error: 'Your request could not be processed. Please contact us directly.' }, { status: 400 });
     const inquiry = { name: get('name'), organization: get('organization'), email: get('email'), phone: get('phone'), interest: get('interest'), message: get('message') };
     if (!inquiry.name || inquiry.name.length > 120 || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(inquiry.email) || inquiry.email.length > 254 || !inquiry.message || inquiry.message.length > 4000 || inquiry.organization.length > 160 || inquiry.phone.length > 40 || (inquiry.interest && !services.some(s => s.id === inquiry.interest))) return NextResponse.json({ error: 'Please check your name, email, and message, then try again.' }, { status: 400 });
+    if (process.env.INQUIRY_DELIVERY === 'google-smtp') {
+      if (!process.env.GOOGLE_SMTP_USER || !process.env.GOOGLE_SMTP_APP_PASSWORD || !process.env.TURNSTILE_SECRET_KEY || !process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY) return NextResponse.json({ error: 'Online requests are temporarily unavailable. Please email sales@rnbcloud.com or call 502-440-1380.' }, { status: 503 });
+      const token = get('cf-turnstile-response');
+      if (!token || token.length > 2048) return NextResponse.json({ error: 'Please complete the verification, then send your request again.' }, { status: 400 });
+      try {
+        const verification = await fetch('https://challenges.cloudflare.com/turnstile/v0/siteverify', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ secret: process.env.TURNSTILE_SECRET_KEY, response: token }), signal: AbortSignal.timeout(7000), cache: 'no-store' });
+        if (!verification.ok) throw new Error('Verification unavailable');
+        const check = await verification.json();
+        if (check.success !== true || check.action !== 'sales_inquiry' || check.hostname !== new URL(origin).hostname) return NextResponse.json({ error: 'Verification expired or was unsuccessful. Please try again.' }, { status: 400 });
+      } catch { return NextResponse.json({ error: 'Verification is temporarily unavailable. Please try again or email sales@rnbcloud.com.' }, { status: 503 }); }
+      try {
+        await deliverGoogleInquiry(inquiry);
+        return NextResponse.json({ success: true });
+      } catch { return NextResponse.json({ error: 'We couldn’t deliver your request. Please email sales@rnbcloud.com or call 502-440-1380.' }, { status: 502 }); }
+    }
     const endpoint = process.env.INQUIRY_WEBHOOK_URL;
-    if (!endpoint || !endpoint.startsWith('https://')) return NextResponse.json({ error: 'Online requests are not available yet. Please email support@rnbcloud.com or call 502-440-1380 to reach us directly.' }, { status: 503 });
+    if (!endpoint || !endpoint.startsWith('https://')) return NextResponse.json({ error: 'Online requests are not available yet. Please email sales@rnbcloud.com or call 502-440-1380 to reach us directly.' }, { status: 503 });
     try {
       const delivery = await fetch(endpoint, { method: 'POST', headers: { 'Content-Type': 'application/json', ...(process.env.INQUIRY_WEBHOOK_TOKEN ? { Authorization: `Bearer ${process.env.INQUIRY_WEBHOOK_TOKEN}` } : {}) }, body: JSON.stringify({ ...inquiry, source: 'rnbcloud-website', submittedAt: new Date().toISOString() }), signal: AbortSignal.timeout(10000), redirect: 'error', cache: 'no-store' });
       if (!delivery.ok) throw new Error('Delivery failed');
       return NextResponse.json({ success: true });
-    } catch { return NextResponse.json({ error: 'We couldn’t deliver your request. Please email support@rnbcloud.com or call 502-440-1380.' }, { status: 502 }); }
+    } catch { return NextResponse.json({ error: 'We couldn’t deliver your request. Please email sales@rnbcloud.com or call 502-440-1380.' }, { status: 502 }); }
   } catch { return NextResponse.json({ error: 'We couldn’t read this request. Please check your details and try again.' }, { status: 400 }); }
 }

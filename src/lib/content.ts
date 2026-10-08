@@ -1,5 +1,5 @@
 export const company = {
-  name: 'RnB Cloud', email: 'support@rnbcloud.com', phone: '502-440-1380', phoneHref: 'tel:+15024401380',
+  name: 'RnB Cloud', email: 'support@rnbcloud.com', salesEmail: 'sales@rnbcloud.com', phone: '502-440-1380', phoneHref: 'tel:+15024401380',
   text: '502-208-8747', textHref: 'sms:+15022088747', support: 'https://support.rnbcloud.com',
   booking: 'https://calendar.app.google/VrHQ3Vq5wQCdNU9D6',
   areaLabel: 'Louisville - Elizabethtown - Southern Indiana & surrounding regions',

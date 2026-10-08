@@ -7,7 +7,8 @@ const require = createRequire(import.meta.url);
 const nextServer = pathToFileURL(require.resolve('next/server')).href;
 const source = (await readFile(new URL('../src/app/api/inquiry/route.ts', import.meta.url), 'utf8'))
   .replace("'next/server'", JSON.stringify(nextServer))
-  .replace("'@/lib/content'", JSON.stringify(new URL('../src/lib/content.ts', import.meta.url).href));
+  .replace("'@/lib/content'", JSON.stringify(new URL('../src/lib/content.ts', import.meta.url).href))
+  .replace("'@/lib/inquiry-email'", JSON.stringify(new URL('../src/lib/inquiry-email.ts', import.meta.url).href));
 const { POST } = await import('data:text/javascript;base64,' + Buffer.from(stripTypeScriptTypes(source)).toString('base64'));
 const { NextRequest } = await import(nextServer);
 const originalFetch = globalThis.fetch;

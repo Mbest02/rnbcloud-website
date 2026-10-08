@@ -73,3 +73,7 @@ The browser's 320px viewport override did not take effect (the page continued to
 Hosted staging validation still required: accepted inquiry delivery and failed-delivery behavior; GA4 receipt/payload review; real booking destination; sitemap/robots and canonical consistency; keyboard and 320px mobile review; representative performance/accessibility checks; platform environment settings; privacy approval; ownership and repeatable deployment.
 
 Resources/blog and CMS remain outside this phase. Client proof sections are omitted until approved material is supplied. Production deployment and DNS changes await final review.
+
+## October 8 contact delivery update
+
+Sales receiver is now selected: Google Workspace email to sales@rnbcloud.com (alias/group), sent by support@rnbcloud.com. Google SMTP delivery and prospect acknowledgment are implemented, with Cloudflare Turnstile verification required for this delivery mode. The unconverted-inquiry policy is 12 months after last contact. This supersedes earlier statements that the sales destination is unselected. See CONTACT_EMAIL_SETUP.md for the exact environment values, alias/group checks, mailbox retention procedure, hosting rate-limit rule and real staging tests still needed. Credentials are not configured and the form is not yet live for delivery. The privacy review gate remains active. Vendor-section responsive checks succeeded at 360/390/425/1280px with working viewport control; full-site responsive QA still needs completion.

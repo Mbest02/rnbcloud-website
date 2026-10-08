@@ -1,0 +1,66 @@
+{
+  "sectionTitle": "Technologies We Work With",
+  "subtitle": "Experience across the platforms businesses rely on every day.",
+  "websiteFolder": "/public/images/vendors/",
+  "displayOrder": [
+    "Microsoft",
+    "Google",
+    "Cisco",
+    "Fortinet",
+    "NinjaOne",
+    "SentinelOne",
+    "Datto",
+    "Jamf"
+  ],
+  "assets": [
+    {
+      "vendor": "Microsoft",
+      "filename": "microsoft.svg",
+      "alt": "Microsoft",
+      "status": "REVIEW BEFORE PUBLISHING"
+    },
+    {
+      "vendor": "Google",
+      "filename": "google.svg",
+      "alt": "Google",
+      "status": "REVIEW BEFORE PUBLISHING"
+    },
+    {
+      "vendor": "Cisco",
+      "filename": "cisco.svg",
+      "alt": "Cisco",
+      "status": "PERMISSION / RELATIONSHIP LOGO RECOMMENDED"
+    },
+    {
+      "vendor": "Fortinet",
+      "filename": "fortinet.svg",
+      "alt": "Fortinet",
+      "status": "USE OFFICIAL KIT / VERIFY RIGHTS"
+    },
+    {
+      "vendor": "NinjaOne",
+      "filename": "ninjaone.svg",
+      "alt": "NinjaOne",
+      "status": "USE OFFICIAL MEDIA KIT"
+    },
+    {
+      "vendor": "SentinelOne",
+      "filename": "sentinelone.svg",
+      "alt": "SentinelOne",
+      "status": "DO NOT ALTER / VERIFY RIGHTS"
+    },
+    {
+      "vendor": "Datto",
+      "filename": "datto.svg",
+      "alt": "Datto",
+      "status": "VERIFY CURRENT KASEYA/DATTO TERMS"
+    },
+    {
+      "vendor": "Jamf",
+      "filename": "jamf.svg",
+      "alt": "Jamf",
+      "status": "USE OFFICIAL MEDIA KIT / VERIFY RIGHTS"
+    }
+  ],
+  "important": "Do not label this section Partners, Strategic Partners, Certified Partners, or Official Partners unless each relationship is verified."
+}

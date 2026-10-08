@@ -4,6 +4,8 @@
 
 October 8 refinements and the latest verification results are recorded in [the launch QA report](artifacts/launch-readiness/QA-REPORT.md). Desktop is approved by the user; final production approval is still pending. The browser viewport override remained at 1280px for all five requested sizes, so mobile/tablet/large-desktop verification is not complete.
 
+The user has now supplied the hosted test URL: https://rnbcloud-website.vercel.app. Hosted testing exposed missing `/images/` assets and a 403 rejection for the stable project alias. The fixes scope `.vercelignore` exclusions to root folders, explicitly include `public`, and accept the exact approved staging alias plus the project's Vercel deployment/production/branch URL variables. Unrelated Vercel projects remain rejected. These corrections need a new deployment before hosted verification; no DNS change is needed. Project/team ownership details and final sales receiver remain unconfirmed.
+
 The approved Phase 2 pages, supplied images, Martin profile, and support links remain in place. Contact now provides the inquiry form and a direct “Schedule a 30-Minute Consultation” link to https://calendar.app.google/VrHQ3Vq5wQCdNU9D6. All primary consultation CTAs still lead to Contact. Both `?interest=internal-id` and `?service=id-or-public-slug` select the correct service without changing the existing form IDs.
 
 Sales delivery is still intentionally unconfigured. The form must show the direct-contact fallback until a receiver is selected; it cannot be described as a working delivery flow yet. Google booking provides a usable alternative independently of the form.

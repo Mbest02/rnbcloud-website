@@ -2,9 +2,13 @@ import { NextRequest, NextResponse } from 'next/server';
 import { services } from '@/lib/content';
 export async function POST(request: NextRequest) {
   const origin = request.headers.get('origin');
-  const allowedOrigins = new Set(['https://rnbcloud.com', 'https://www.rnbcloud.com']);
+  const allowedOrigins = new Set(['https://rnbcloud.com', 'https://www.rnbcloud.com', 'https://rnbcloud-website.vercel.app']);
   if (process.env.SITE_ORIGIN) allowedOrigins.add(process.env.SITE_ORIGIN);
-  if (process.env.VERCEL_URL) allowedOrigins.add(`https://${process.env.VERCEL_URL}`);
+  // The stable project and branch aliases differ from the individual deployment URL.
+  // Use only this project's server-provided URLs; never allow every *.vercel.app host.
+  for (const host of [process.env.VERCEL_URL, process.env.VERCEL_PROJECT_PRODUCTION_URL, process.env.VERCEL_BRANCH_URL]) {
+    if (host) allowedOrigins.add(`https://${host}`);
+  }
   if (process.env.NODE_ENV === 'development') { allowedOrigins.add('http://127.0.0.1:3000'); allowedOrigins.add('http://localhost:3000'); }
   if (!origin || !allowedOrigins.has(origin)) return NextResponse.json({ error: 'Please submit your request from our contact page.' }, { status: 403 });
   if (!request.headers.get('content-type')?.includes('application/json')) return NextResponse.json({ error: 'Unsupported request format.' }, { status: 415 });

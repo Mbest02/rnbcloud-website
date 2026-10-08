@@ -11,7 +11,7 @@ const source = (await readFile(new URL('../src/app/api/inquiry/route.ts', import
 const { POST } = await import('data:text/javascript;base64,' + Buffer.from(stripTypeScriptTypes(source)).toString('base64'));
 const { NextRequest } = await import(nextServer);
 const originalFetch = globalThis.fetch;
-const saved = Object.fromEntries(['SITE_ORIGIN', 'INQUIRY_WEBHOOK_URL', 'INQUIRY_WEBHOOK_TOKEN'].map(key => [key, process.env[key]]));
+const saved = Object.fromEntries(['SITE_ORIGIN', 'VERCEL_URL', 'VERCEL_PROJECT_PRODUCTION_URL', 'VERCEL_BRANCH_URL', 'INQUIRY_WEBHOOK_URL', 'INQUIRY_WEBHOOK_TOKEN'].map(key => [key, process.env[key]]));
 const origin = 'https://qa.example';
 const valid = { name: 'QA Test', email: 'qa@example.com', message: 'Controlled test only.', interest: 'managed-it' };
 let deliveries = [];
@@ -41,6 +41,17 @@ try {
   assert.equal(deliveries[0].payload.source, 'rnbcloud-website');
   assert.equal(deliveries[0].payload.email, valid.email);
   assert(deliveries[0].payload.submittedAt);
+  process.env.VERCEL_URL = 'rnbcloud-website-deployment.example.vercel.app';
+  process.env.VERCEL_PROJECT_PRODUCTION_URL = 'rnbcloud-website.vercel.app';
+  process.env.VERCEL_BRANCH_URL = 'rnbcloud-website-git-review.example.vercel.app';
+  for (const host of [process.env.VERCEL_URL, process.env.VERCEL_PROJECT_PRODUCTION_URL, process.env.VERCEL_BRANCH_URL]) await post(valid, 200, `https://${host}`);
+  await post(valid, 403, 'https://unrelated-project.vercel.app');
+  await post(valid, 403, 'https://rnbcloud-website.vercel.app.unrelated.example');
+  await post(valid, 403, 'http://rnbcloud-website.vercel.app');
+  await post(valid, 403, 'null');
+  // The approved stable staging alias also works when optional system variables are unavailable.
+  delete process.env.VERCEL_PROJECT_PRODUCTION_URL;
+  await post(valid, 200, 'https://rnbcloud-website.vercel.app');
   mode = 'reject'; await post(valid, 502);
   mode = 'throw'; await post(valid, 502);
   const beforeRejected = deliveries.length;
@@ -54,7 +65,7 @@ try {
   assert.equal(deliveries.length, beforeRejected, 'Rejected traffic never reaches the receiver');
   delete process.env.INQUIRY_WEBHOOK_URL; await post(valid, 503);
   process.env.INQUIRY_WEBHOOK_URL = 'http://receiver.example'; await post(valid, 503);
-  console.log('PASS: controlled receiver acceptance, rejection, connection failure, validation, honeypot, origin, format, size and missing/non-HTTPS receiver. Real delivery remains a staging check.');
+  console.log('PASS: deployment, project and branch aliases accepted; unrelated/spoofed origins rejected; controlled receiver acceptance/failure, validation, honeypot, format, size and missing/non-HTTPS receiver. Real delivery remains a staging check.');
 } finally {
   globalThis.fetch = originalFetch;
   for (const [key, value] of Object.entries(saved)) { if (value === undefined) delete process.env[key]; else process.env[key] = value; }

@@ -1,10 +1,13 @@
-Images/
-artifacts/
+# Root-only exclusions must not match the website's public/images directory.
+/Images/
+/artifacts/
 .env*
 PROJECT_BRIEF.md
 PHASE_2_PLAN.md
 LAUNCH_READINESS.md
 CLAUDE.md
 AGENTS.md
-scripts/
+/scripts/
 *.tsbuildinfo
+!/public/
+!/public/**

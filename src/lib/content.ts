@@ -1,0 +1,23 @@
+export const company = {
+  name: 'RnB Cloud', email: 'support@rnbcloud.com', phone: '502-440-1380', phoneHref: 'tel:+15024401380',
+  text: '502-208-8747', textHref: 'sms:+15022088747', support: 'https://support.rnbcloud.com',
+  booking: 'https://calendar.app.google/VrHQ3Vq5wQCdNU9D6',
+  areaLabel: 'Louisville - Elizabethtown - Southern Indiana & surrounding regions',
+  area: 'Serving Louisville, Elizabethtown, Southern Indiana, and surrounding regions, with remote support available beyond the local area.',
+};
+export const services = [
+  { id: 'managed-it', slug: 'managed-it', name: 'Managed IT Services', short: 'IT that gets out of your way.', description: 'Keep your people productive with dependable support, proactive maintenance, and a plan for what comes next.', icon: 'monitor', items: ['Help desk and user support', 'Monitoring, patching, and endpoint management', 'Microsoft 365 and Google Workspace administration', 'Vendor coordination and technology planning'] },
+  { id: 'cybersecurity', slug: 'cybersecurity', name: 'Cybersecurity', short: 'Confidence, built in.', description: 'Strengthen protection across your people, devices, identities, and networks with security that fits how you work.', icon: 'shield', items: ['Endpoint detection and protection', 'Identity security and multi-factor authentication', 'Firewall, Microsoft 365, and Google Workspace security', 'Security discovery and assessment'] },
+  { id: 'cloud-microsoft-365', slug: 'cloud-collaboration', name: 'Cloud & Collaboration', short: 'Better connected. Better equipped.', description: 'Support for Microsoft 365 and Google Workspace, from business email and collaboration to secure administration and planned migrations.', icon: 'cloud', items: ['Microsoft 365 and Google Workspace administration', 'Business email support for Outlook and Gmail', 'Teams, SharePoint, OneDrive, and Google Drive', 'Email and file migrations', 'Permissions, sharing, and secure configuration'] },
+  { id: 'ai-automation', slug: 'ai-automation', name: 'AI & Automation', short: 'A practical next step.', description: 'Find useful ways to put AI to work, improve everyday workflows, and adopt new tools with security and privacy in mind.', icon: 'sparkles', items: ['AI readiness and opportunity discovery', 'Microsoft Copilot guidance', 'Business-process and workflow improvement', 'Secure adoption and responsible-use policies'] },
+  { id: 'backup-disaster-recovery', slug: 'backup-disaster-recovery', name: 'Backup & Disaster Recovery', short: 'Plan for a confident recovery.', description: 'Protect critical systems and cloud data with monitored backups and recovery priorities built around your business.', icon: 'database', items: ['Server and cloud data backup', 'Retention and recovery planning', 'Backup monitoring and verification', 'Business continuity and recovery priorities'] },
+  { id: 'network-infrastructure', slug: 'network-infrastructure', name: 'Network & Infrastructure', short: 'A stronger foundation.', description: 'Build reliable connectivity and infrastructure that support your people, locations, and everyday operations.', icon: 'network', items: ['Business Wi-Fi, switching, and firewalls', 'Secure remote access and multi-site connectivity', 'Servers, storage, and virtualization', 'Infrastructure lifecycle planning'] },
+  { id: 'it-consulting', slug: 'it-consulting', name: 'IT Projects & Consulting', short: 'Move forward with a clear plan.', description: 'Bring experienced technical guidance to migrations, upgrades, office moves, assessments, and one-time engagements.', icon: 'compass', items: ['Office moves and technology refreshes', 'Migration and deployment planning', 'Infrastructure upgrades and remediation', 'Assessments and vendor coordination'] },
+] as const;
+export const industries = [
+  { name: 'Professional services', description: 'Dependable support, secure email, and file collaboration for teams whose time is their business.' },
+  { name: 'Nonprofits & foundations', description: 'Practical technology planning, secure collaboration, and support that respects limited resources.' },
+  { name: 'Healthcare & care organizations', description: 'Reliable systems, protected access, backup planning, and coordination with specialized technology vendors.' },
+  { name: 'Education & community', description: 'Google Workspace for Education, Apple device management with Jamf, account lifecycle management, secure networks, and dependable Wi-Fi for schools and community organizations.' },
+  { name: 'Multi-site businesses', description: 'Consistent systems, connected locations, and a clearer approach to managing technology across your organization.' },
+];

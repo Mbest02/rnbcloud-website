@@ -1,0 +1,44 @@
+[
+  {
+    "name": "organization",
+    "outline": "rgb(11, 121, 218) solid 3px",
+    "tag": "INPUT",
+    "text": ""
+  },
+  {
+    "name": "email",
+    "outline": "rgb(11, 121, 218) solid 3px",
+    "tag": "INPUT",
+    "text": ""
+  },
+  {
+    "name": "phone",
+    "outline": "rgb(11, 121, 218) solid 3px",
+    "tag": "INPUT",
+    "text": ""
+  },
+  {
+    "name": "interest",
+    "outline": "rgb(11, 121, 218) solid 3px",
+    "tag": "SELECT",
+    "text": "I’d like to discuss my optionsManaged IT ServicesCybersecurityCloud & CollaborationAI & AutomationBackup & Disaster RecoveryNetwork & InfrastructureIT Projects & Consulting"
+  },
+  {
+    "name": "message",
+    "outline": "rgb(11, 121, 218) solid 3px",
+    "tag": "TEXTAREA",
+    "text": ""
+  },
+  {
+    "name": null,
+    "outline": "rgb(11, 121, 218) solid 3px",
+    "tag": "A",
+    "text": "Privacy Policy"
+  },
+  {
+    "name": null,
+    "outline": "rgb(11, 121, 218) solid 3px",
+    "tag": "BUTTON",
+    "text": "Send My Request"
+  }
+]

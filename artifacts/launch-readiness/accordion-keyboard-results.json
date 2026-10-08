@@ -1,0 +1,44 @@
+[
+  {
+    "slug": "managed-it",
+    "open": 6,
+    "total": 6,
+    "closed": true
+  },
+  {
+    "slug": "cybersecurity",
+    "open": 5,
+    "total": 5,
+    "closed": true
+  },
+  {
+    "slug": "cloud-collaboration",
+    "open": 5,
+    "total": 5,
+    "closed": true
+  },
+  {
+    "slug": "ai-automation",
+    "open": 5,
+    "total": 5,
+    "closed": true
+  },
+  {
+    "slug": "backup-disaster-recovery",
+    "open": 5,
+    "total": 5,
+    "closed": true
+  },
+  {
+    "slug": "network-infrastructure",
+    "open": 5,
+    "total": 5,
+    "closed": true
+  },
+  {
+    "slug": "it-consulting",
+    "open": 5,
+    "total": 5,
+    "closed": true
+  }
+]

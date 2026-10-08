@@ -1,0 +1,27 @@
+[
+  {
+    "requestedWidth": 390,
+    "actualWidth": 1280,
+    "scrollWidth": 1280
+  },
+  {
+    "requestedWidth": 430,
+    "actualWidth": 1280,
+    "scrollWidth": 1280
+  },
+  {
+    "requestedWidth": 768,
+    "actualWidth": 1280,
+    "scrollWidth": 1280
+  },
+  {
+    "requestedWidth": 1280,
+    "actualWidth": 1280,
+    "scrollWidth": 1280
+  },
+  {
+    "requestedWidth": 1920,
+    "actualWidth": 1280,
+    "scrollWidth": 1280
+  }
+]

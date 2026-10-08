@@ -1,0 +1,119 @@
+[
+  {
+    "path": "/",
+    "emptyButtons": 0,
+    "h1Count": 1,
+    "missingAlt": 0,
+    "scrollWidth": 1280,
+    "unloadedImages": 0,
+    "width": 1280
+  },
+  {
+    "path": "/services",
+    "emptyButtons": 0,
+    "h1Count": 1,
+    "missingAlt": 0,
+    "scrollWidth": 1280,
+    "unloadedImages": 2,
+    "width": 1280
+  },
+  {
+    "path": "/services/managed-it",
+    "emptyButtons": 0,
+    "h1Count": 1,
+    "missingAlt": 0,
+    "scrollWidth": 1280,
+    "unloadedImages": 2,
+    "width": 1280
+  },
+  {
+    "path": "/services/cybersecurity",
+    "emptyButtons": 0,
+    "h1Count": 1,
+    "missingAlt": 0,
+    "scrollWidth": 1280,
+    "unloadedImages": 2,
+    "width": 1280
+  },
+  {
+    "path": "/services/cloud-collaboration",
+    "emptyButtons": 0,
+    "h1Count": 1,
+    "missingAlt": 0,
+    "scrollWidth": 1280,
+    "unloadedImages": 2,
+    "width": 1280
+  },
+  {
+    "path": "/services/ai-automation",
+    "emptyButtons": 0,
+    "h1Count": 1,
+    "missingAlt": 0,
+    "scrollWidth": 1280,
+    "unloadedImages": 2,
+    "width": 1280
+  },
+  {
+    "path": "/services/backup-disaster-recovery",
+    "emptyButtons": 0,
+    "h1Count": 1,
+    "missingAlt": 0,
+    "scrollWidth": 1280,
+    "unloadedImages": 2,
+    "width": 1280
+  },
+  {
+    "path": "/services/network-infrastructure",
+    "emptyButtons": 0,
+    "h1Count": 1,
+    "missingAlt": 0,
+    "scrollWidth": 1280,
+    "unloadedImages": 2,
+    "width": 1280
+  },
+  {
+    "path": "/services/it-consulting",
+    "emptyButtons": 0,
+    "h1Count": 1,
+    "missingAlt": 0,
+    "scrollWidth": 1280,
+    "unloadedImages": 2,
+    "width": 1280
+  },
+  {
+    "path": "/industries",
+    "emptyButtons": 0,
+    "h1Count": 1,
+    "missingAlt": 0,
+    "scrollWidth": 1280,
+    "unloadedImages": 2,
+    "width": 1280
+  },
+  {
+    "path": "/about",
+    "emptyButtons": 0,
+    "h1Count": 1,
+    "missingAlt": 0,
+    "scrollWidth": 1280,
+    "unloadedImages": 2,
+    "width": 1280
+  },
+  {
+    "path": "/contact",
+    "emptyButtons": 0,
+    "h1Count": 1,
+    "missingAlt": 0,
+    "scrollWidth": 1280,
+    "unloadedImages": 2,
+    "width": 1280
+  },
+  {
+    "path": "/privacy",
+    "emptyButtons": 0,
+    "h1Count": 1,
+    "missingAlt": 0,
+    "scrollWidth": 1280,
+    "unloadedImages": 2,
+    "width": 1280
+  }
+]

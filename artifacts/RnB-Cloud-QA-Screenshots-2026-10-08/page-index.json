@@ -1,0 +1,92 @@
+[
+  {
+    "file": "01-home.jpg",
+    "path": "/",
+    "width": 1280,
+    "height": 4927
+  },
+  {
+    "file": "02-services.jpg",
+    "path": "/services",
+    "height": 3976,
+    "unloadedImages": [],
+    "width": 1280
+  },
+  {
+    "file": "03-managed-it.jpg",
+    "path": "/services/managed-it",
+    "height": 5309,
+    "unloadedImages": [],
+    "width": 1280
+  },
+  {
+    "file": "04-cybersecurity.jpg",
+    "path": "/services/cybersecurity",
+    "height": 5326,
+    "unloadedImages": [],
+    "width": 1280
+  },
+  {
+    "file": "05-cloud-collaboration.jpg",
+    "path": "/services/cloud-collaboration",
+    "height": 5143,
+    "unloadedImages": [],
+    "width": 1280
+  },
+  {
+    "file": "06-ai-automation.jpg",
+    "path": "/services/ai-automation",
+    "height": 5112,
+    "unloadedImages": [],
+    "width": 1280
+  },
+  {
+    "file": "07-backup-disaster-recovery.jpg",
+    "path": "/services/backup-disaster-recovery",
+    "height": 5063,
+    "unloadedImages": [],
+    "width": 1280
+  },
+  {
+    "file": "08-network-infrastructure.jpg",
+    "path": "/services/network-infrastructure",
+    "height": 5142,
+    "unloadedImages": [],
+    "width": 1280
+  },
+  {
+    "file": "09-it-projects-consulting.jpg",
+    "path": "/services/it-consulting",
+    "height": 5171,
+    "unloadedImages": [],
+    "width": 1280
+  },
+  {
+    "file": "10-industries.jpg",
+    "path": "/industries",
+    "height": 2629,
+    "unloadedImages": [],
+    "width": 1280
+  },
+  {
+    "file": "11-about.jpg",
+    "path": "/about",
+    "height": 4633,
+    "unloadedImages": [],
+    "width": 1280
+  },
+  {
+    "file": "12-contact.jpg",
+    "path": "/contact",
+    "height": 2324,
+    "unloadedImages": [],
+    "width": 1280
+  },
+  {
+    "file": "13-privacy-draft.jpg",
+    "path": "/privacy",
+    "height": 2419,
+    "unloadedImages": [],
+    "width": 1280
+  }
+]

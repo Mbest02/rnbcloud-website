@@ -1,0 +1,2 @@
+import { Button } from '@/components/ui';
+export default function NotFound() { return <div className="wrap not-found"><h1>Let’s get you back on track.</h1><p>This page couldn’t be found. Explore our services or contact us for help.</p><div className="actions" style={{ justifyContent: 'center' }}><Button href="/">Back to Home</Button><Button href="/services" variant="secondary">Explore Services</Button></div></div>; }

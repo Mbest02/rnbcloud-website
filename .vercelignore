@@ -1,0 +1,10 @@
+Images/
+artifacts/
+.env*
+PROJECT_BRIEF.md
+PHASE_2_PLAN.md
+LAUNCH_READINESS.md
+CLAUDE.md
+AGENTS.md
+scripts/
+*.tsbuildinfo

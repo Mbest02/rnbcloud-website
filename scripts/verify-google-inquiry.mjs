@@ -40,13 +40,19 @@ async function post(extra, status) {
  const response = await POST(new NextRequest('https://rnbcloud-website.vercel.app/api/inquiry', { method: 'POST', headers: { origin: 'https://rnbcloud-website.vercel.app', 'content-type': 'application/json' }, body: JSON.stringify({ ...inquiry, 'cf-turnstile-response': 'qa-token', ...extra }) }));
  assert.equal(response.status, status); assert.equal(Boolean((await response.json()).success), status === 200);
 }
-await post({}, 200); assert.equal(globalThis.qaEmailCalls, 1);
+await post({}, 200);
+delete process.env.INQUIRY_DELIVERY; await post({}, 200);
+process.env.INQUIRY_DELIVERY = ''; await post({}, 200);
+process.env.INQUIRY_DELIVERY = ' Google-SMTP '; await post({}, 200);
+process.env.INQUIRY_DELIVERY = 'google_smpt'; await post({}, 503);
+process.env.INQUIRY_DELIVERY = 'google-smtp';
+assert.equal(globalThis.qaEmailCalls, 4);
 verification.success = false; await post({}, 400);
 verification.success = true; verification.hostname = 'other.example'; await post({}, 400);
 verification.hostname = 'rnbcloud-website.vercel.app'; verification.action = 'other'; await post({}, 400);
 verification.action = 'sales_inquiry'; await post({ 'cf-turnstile-response': '' }, 400);
 outage = true; await post({}, 503); outage = false;
-assert.equal(globalThis.qaEmailCalls, 1, 'Failed verification never sends emails');
+assert.equal(globalThis.qaEmailCalls, 4, 'Failed verification never sends emails');
 globalThis.qaEmailFailure = true; await post({}, 502);
 delete process.env.GOOGLE_SMTP_APP_PASSWORD; await post({}, 503);
 console.log('PASS: sales routing, sender/reply-to, plain-text notification, acknowledgment ordering/failure, verification token/action/hostname/outage, SMTP failure and missing configuration. Real inbox delivery still requires hosted credentials.');

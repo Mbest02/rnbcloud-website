@@ -6,7 +6,7 @@ type Sender = (mail: Mail) => Promise<{ accepted?: unknown[] }>;
 // Once the sales message is accepted, acknowledgment failure must not encourage
 // resubmission of an inquiry already delivered to the mail server.
 export async function sendInquiryEmails(inquiry: Inquiry, send: Sender) {
-  const from = { name: 'RnB Cloud', address: process.env.GOOGLE_SMTP_USER || 'support@rnbcloud.com' };
+  const from = { name: 'RnB Cloud', address: process.env.GOOGLE_SMTP_USER?.trim() || 'support@rnbcloud.com' };
   const sales = 'sales@rnbcloud.com';
   const result = await send({ from, to: sales, replyTo: inquiry.email,
     subject: 'New website consultation request',
@@ -28,7 +28,7 @@ export async function sendInquiryEmails(inquiry: Inquiry, send: Sender) {
 export async function deliverGoogleInquiry(inquiry: Inquiry) {
   const transport = nodemailer.createTransport({
     host: 'smtp.gmail.com', port: 465, secure: true,
-    auth: { user: process.env.GOOGLE_SMTP_USER, pass: process.env.GOOGLE_SMTP_APP_PASSWORD },
+    auth: { user: process.env.GOOGLE_SMTP_USER?.trim(), pass: process.env.GOOGLE_SMTP_APP_PASSWORD?.replace(/\s/g, '') },
     connectionTimeout: 7000, greetingTimeout: 7000, socketTimeout: 10000,
     disableFileAccess: true, disableUrlAccess: true,
   });

@@ -12,7 +12,7 @@ const source = (await readFile(new URL('../src/app/api/inquiry/route.ts', import
 const { POST } = await import('data:text/javascript;base64,' + Buffer.from(stripTypeScriptTypes(source)).toString('base64'));
 const { NextRequest } = await import(nextServer);
 const originalFetch = globalThis.fetch;
-const saved = Object.fromEntries(['SITE_ORIGIN', 'VERCEL_URL', 'VERCEL_PROJECT_PRODUCTION_URL', 'VERCEL_BRANCH_URL', 'INQUIRY_WEBHOOK_URL', 'INQUIRY_WEBHOOK_TOKEN'].map(key => [key, process.env[key]]));
+const saved = Object.fromEntries(['INQUIRY_DELIVERY', 'SITE_ORIGIN', 'VERCEL_URL', 'VERCEL_PROJECT_PRODUCTION_URL', 'VERCEL_BRANCH_URL', 'INQUIRY_WEBHOOK_URL', 'INQUIRY_WEBHOOK_TOKEN'].map(key => [key, process.env[key]]));
 const origin = 'https://qa.example';
 const valid = { name: 'QA Test', email: 'qa@example.com', message: 'Controlled test only.', interest: 'managed-it' };
 let deliveries = [];
@@ -25,6 +25,7 @@ async function post(data, expected, requestOrigin = origin, contentType = 'appli
   assert.equal(Boolean(result.success), expected === 200, 'Only receiver acceptance may return success');
 }
 try {
+  process.env.INQUIRY_DELIVERY = 'webhook';
   process.env.SITE_ORIGIN = origin;
   process.env.INQUIRY_WEBHOOK_URL = 'https://receiver.example/inquiries';
   process.env.INQUIRY_WEBHOOK_TOKEN = 'qa-only-token';

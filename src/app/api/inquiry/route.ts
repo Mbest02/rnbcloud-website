@@ -30,8 +30,20 @@ export async function POST(request: NextRequest) {
     if (get('website')) return NextResponse.json({ error: 'Your request could not be processed. Please contact us directly.' }, { status: 400 });
     const inquiry = { name: get('name'), organization: get('organization'), email: get('email'), phone: get('phone'), interest: get('interest'), message: get('message') };
     if (!inquiry.name || inquiry.name.length > 120 || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(inquiry.email) || inquiry.email.length > 254 || !inquiry.message || inquiry.message.length > 4000 || inquiry.organization.length > 160 || inquiry.phone.length > 40 || (inquiry.interest && !services.some(s => s.id === inquiry.interest))) return NextResponse.json({ error: 'Please check your name, email, and message, then try again.' }, { status: 400 });
-    if (process.env.INQUIRY_DELIVERY === 'google-smtp') {
-      if (!process.env.GOOGLE_SMTP_USER || !process.env.GOOGLE_SMTP_APP_PASSWORD || !process.env.TURNSTILE_SECRET_KEY || !process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY) return NextResponse.json({ error: 'Online requests are temporarily unavailable. Please email sales@rnbcloud.com or call 502-440-1380.' }, { status: 503 });
+    // Google Workspace is the approved delivery method. Legacy webhook delivery
+    // must be explicitly selected rather than silently becoming the fallback.
+    const deliveryMode = process.env.INQUIRY_DELIVERY?.trim().toLowerCase() || 'google-smtp';
+    if (deliveryMode !== 'google-smtp' && deliveryMode !== 'webhook') {
+      console.warn('inquiry_configuration_invalid: INQUIRY_DELIVERY');
+      return NextResponse.json({ error: 'Online requests are temporarily unavailable. Please email sales@rnbcloud.com or call 502-440-1380.' }, { status: 503 });
+    }
+    if (deliveryMode === 'google-smtp') {
+      const required = ['GOOGLE_SMTP_USER', 'GOOGLE_SMTP_APP_PASSWORD', 'TURNSTILE_SECRET_KEY', 'NEXT_PUBLIC_TURNSTILE_SITE_KEY'] as const;
+      const missing = required.filter(key => !process.env[key]?.trim());
+      if (missing.length) {
+        console.warn(`inquiry_configuration_missing: ${missing.join(', ')}`);
+        return NextResponse.json({ error: 'Online requests are temporarily unavailable. Please email sales@rnbcloud.com or call 502-440-1380.' }, { status: 503 });
+      }
       const token = get('cf-turnstile-response');
       if (!token || token.length > 2048) return NextResponse.json({ error: 'Please complete the verification, then send your request again.' }, { status: 400 });
       try {

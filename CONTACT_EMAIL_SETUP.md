@@ -43,3 +43,9 @@ The site does not store inquiries in a database and does not automatically delet
 - Complete privacy/analytics review, then set PRIVACY_POLICY_APPROVED=true. Do not set it merely to hide the review banner.
 
 Controlled local tests and production build pass. Google/Cloudflare credentials have not been supplied, no real emails have been sent, and real staging delivery remains unverified. Production DNS remains unchanged.
+
+## Troubleshooting delivery selection
+
+Google SMTP is now the default when INQUIRY_DELIVERY is absent or blank. The value is trimmed and case normalized; explicit webhook is required for the legacy receiver. Unknown modes fail closed. The earlier message “Online requests are not available yet” indicates the legacy webhook path was selected before Google delivery was attempted. Verify the Vercel environment scope for the deployment you are actually using and redeploy after saving settings. The stable vercel.app domain can serve a Production deployment even before the business domain is attached; setting variables only for Preview will not configure that deployment.
+
+Required values: GOOGLE_SMTP_USER=support@rnbcloud.com, GOOGLE_SMTP_APP_PASSWORD, NEXT_PUBLIC_TURNSTILE_SITE_KEY, TURNSTILE_SECRET_KEY. INQUIRY_DELIVERY=google-smtp is still recommended for clarity. Missing settings produce inquiry_configuration_missing in the function log followed by setting names only. Values and passwords are never logged. The SMTP adapter removes spaces from Google's displayed app-password grouping. A successful widget only confirms browser verification; the server must also validate the token and then deliver mail.

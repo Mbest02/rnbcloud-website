@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { AssessmentBookingLink } from '@/components/secure-ai/booking-link';
 import { SupportingImage } from '@/components/supporting-image';
 import { serviceImages } from '@/lib/page-images';
 import Link from 'next/link';
@@ -42,6 +43,7 @@ export default async function ServiceLanding({ params }: Props) {
     { '@context': 'https://schema.org', '@type': 'BreadcrumbList', itemListElement: [{ '@type': 'ListItem', position: 1, name: 'Home', item: 'https://rnbcloud.com' }, { '@type': 'ListItem', position: 2, name: 'Services', item: 'https://rnbcloud.com/services' }, { '@type': 'ListItem', position: 3, name: service.name, item: url }] },
   ];
   return <>
+    {service.id === 'ai-automation' && <aside className="secure-ai-service-callout wrap"><div><Eyebrow>SECURE AI FOR SMALL BUSINESS</Eyebrow><h2>Your team is already using AI. Let’s make it safe and get hours back.</h2><p>Company accounts, clear guardrails, and practical training. Start with a conversation about an AI Security &amp; Readiness Assessment.</p></div><AssessmentBookingLink location="talk" /></aside>}
     <section className="service-hero"><div className="wrap">
       <nav aria-label="Breadcrumb" className="breadcrumbs"><Link href="/">Home</Link><span aria-hidden="true">/</span><Link href="/services">Services</Link><span aria-hidden="true">/</span><span aria-current="page">{service.name}</span></nav>
       <div className={`service-hero-grid ${heroArtwork ? 'service-hero-with-art' : ''}`}><div><Eyebrow>{service.name}</Eyebrow><h1>{page.heading}</h1><p className="lead">{page.intro}</p><div className="actions"><Button href={consultation}>Book a Consultation</Button><a href={company.textHref} className="button button-secondary"><MessageSquare size={17} aria-hidden="true" />Text RnB Cloud</a></div></div>

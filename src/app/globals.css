@@ -603,3 +603,13 @@ svg { flex-shrink: 0; }
 }
 .inquiry-verification { margin: 18px 0; min-width: 0; }
 .inquiry-verification p { font-size: .85rem; margin-top: 8px; }
+
+/* Secure AI entry points use the site's existing type and color system. */
+.secure-ai-banner { display: flex; justify-content: center; align-items: center; gap: 24px; padding: 13px 32px; background: #edf5ff; color: #071d5c; font-size: .8125rem; border-bottom: 1px solid #d7e6f6; }
+.secure-ai-banner > span:last-child { color: #0e4aa2; font-weight: 600; white-space: nowrap; }
+.secure-ai-banner:hover { background: #e0eeff; }
+.secure-ai-service-callout { display: flex; align-items: center; justify-content: space-between; gap: 28px; padding: 32px; margin-block: 32px; border: 1px solid #d7e6f6; border-radius: 12px; background: #f4f8fc; }
+.secure-ai-service-callout h2 { max-width: 760px; font-size: 1.65rem; }
+.secure-ai-service-callout p { margin-top: 12px; }
+.secure-ai-service-callout .button { flex-shrink: 0; }
+@media (max-width: 700px) { .secure-ai-banner, .secure-ai-service-callout { flex-direction: column; align-items: flex-start; gap: 10px; } .secure-ai-banner { padding: 14px 24px; } }

@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { AssessmentBookingLink } from '@/components/secure-ai/booking-link';
 import { SupportingImage } from '@/components/supporting-image';
 import { serviceImages } from '@/lib/page-images';
 import Link from 'next/link';
@@ -23,7 +24,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const url = `/services/${service.slug}`;
   return {
     title, description: page.seoDescription, alternates: { canonical: url },
-    openGraph: { title: `${title} | RnB Cloud`, description: page.seoDescription, url, type: 'website', siteName: 'RnB Cloud', locale: 'en_US', images: [{ url: `${url}/opengraph-image`, width: 1200, height: 630, alt: `${service.name} — RnB Cloud` }] },
+    openGraph: { title: `${title} | RnB Cloud`, description: page.seoDescription, url, type: 'website', siteName: 'RnB Cloud', locale: 'en_US', images: [{ url: `${url}/opengraph-image`, width: 1200, height: 630, alt: `${service.name} | RnB Cloud` }] },
     twitter: { card: 'summary_large_image', title: `${title} | RnB Cloud`, description: page.seoDescription, images: [`${url}/opengraph-image`] },
   };
 }
@@ -49,6 +50,7 @@ export default async function ServiceLanding({ params }: Props) {
       </div>
       {!heroArtwork && !contextArtwork && <SupportingImage image={serviceImages[service.id]} className="service-primary-image" />}
     </div></section>
+    {service.id === 'ai-automation' && <aside className="secure-ai-service-callout wrap"><div><Eyebrow>SECURE AI FOR SMALL BUSINESS</Eyebrow><h2>Your team is already using AI. Let’s make it safe and get hours back.</h2><p>Company accounts, clear guardrails, and practical training. Start with a conversation about an AI Security &amp; Readiness Assessment.</p></div><AssessmentBookingLink location="ai_services_callout" /></aside>}
     <section className="section"><div className={`wrap ${contextArtwork ? `service-context-split ${security ? 'service-context-security' : ''}` : 'content-grid'}`}>
       {contextArtwork ? <><div className="service-context-copy"><Eyebrow>THE BUSINESS FIRST</Eyebrow><h2>{page.problemHeading}</h2><div className="prose"><p>{page.problem}</p><p>{page.approach}</p></div></div><SupportingImage image={serviceImages[service.id]} className={imageClass} sizes="(max-width: 900px) calc(100vw - 64px), 570px" /></> : <><div><Eyebrow>THE BUSINESS FIRST</Eyebrow><h2>{page.problemHeading}</h2></div><div className="prose"><p>{page.problem}</p><p>{page.approach}</p></div></>}
     </div></section>

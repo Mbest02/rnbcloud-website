@@ -1,7 +1,8 @@
 'use client';
 import { useEffect } from 'react';
 import { services } from '@/lib/content';
-import { signalConversion } from '@/lib/conversions';
+import { SECURE_AI_BOOKING_URL, type BookingLocation } from '@/lib/secure-ai-booking';
+import { signalSecureAi, signalConversion } from '@/lib/conversions';
 export function ConversionEvents() {
   useEffect(() => {
     function onClick(event: MouseEvent) {
@@ -9,7 +10,10 @@ export function ConversionEvents() {
       const link = event.target.closest('a');
       if (!link) return;
       const url = new URL(link.href, window.location.origin);
-      if (url.protocol === 'tel:') signalConversion('phone_click');
+      const location = link.dataset.secureAiBooking;
+      if (link.href === SECURE_AI_BOOKING_URL && location && ['hero', 'quiz_result', 'talk', 'final', 'nav', 'banner', 'ai_services_callout'].includes(location)) {
+        signalSecureAi('cta_click', { provider: 'google_appointment_schedule', cta_location: location as BookingLocation });
+      } else if (url.protocol === 'tel:') signalConversion('phone_click');
       else if (url.protocol === 'sms:') signalConversion('text_click');
       else if (url.protocol === 'mailto:') signalConversion('email_click');
       else if (url.hostname === 'support.rnbcloud.com') signalConversion('client_support_click');

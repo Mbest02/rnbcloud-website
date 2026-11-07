@@ -13,7 +13,7 @@ export async function POST(request: NextRequest) {
     if (host) allowedOrigins.add(`https://${host}`);
   }
   if (process.env.NODE_ENV === 'development') { allowedOrigins.add('http://127.0.0.1:3000'); allowedOrigins.add('http://localhost:3000'); }
-  if (!origin || !allowedOrigins.has(origin)) return NextResponse.json({ error: 'Please submit your request from our contact page.' }, { status: 403 });
+  if (!origin || !allowedOrigins.has(origin)) return NextResponse.json({ error: 'Please email support@rnbcloud.com or call 502-440-1380 so we can help with your request.' }, { status: 403 });
   if (!request.headers.get('content-type')?.includes('application/json')) return NextResponse.json({ error: 'Unsupported request format.' }, { status: 415 });
   // Limit the actual stream, rather than trusting Content-Length supplied by the caller.
   const reader = request.body?.getReader();
@@ -28,8 +28,11 @@ export async function POST(request: NextRequest) {
     const data = raw as Record<string, unknown>;
     const get = (name: string) => typeof data[name] === 'string' ? (data[name] as string).trim() : '';
     if (get('website')) return NextResponse.json({ error: 'Your request could not be processed. Please contact us directly.' }, { status: 400 });
-    const inquiry = { name: get('name'), organization: get('organization'), email: get('email'), phone: get('phone'), interest: get('interest'), message: get('message') };
-    if (!inquiry.name || inquiry.name.length > 120 || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(inquiry.email) || inquiry.email.length > 254 || !inquiry.message || inquiry.message.length > 4000 || inquiry.organization.length > 160 || inquiry.phone.length > 40 || (inquiry.interest && !services.some(s => s.id === inquiry.interest))) return NextResponse.json({ error: 'Please check your name, email, and message, then try again.' }, { status: 400 });
+    const assessment = get('interest') === 'secure-ai';
+    const employeeCount = get('employeeCount');
+    if (assessment && (!get('organization') || !get('phone') || !['1-10', '11-25', '26-50'].includes(employeeCount))) return NextResponse.json({ error: 'Please check your company, phone, and employee count, then try again.' }, { status: 400 });
+    const inquiry = { name: get('name'), organization: get('organization'), email: get('email'), phone: get('phone'), interest: get('interest'), message: assessment ? `AI Security & Readiness Assessment conversation request. Employee count: ${employeeCount}. Please contact me to discuss my team and arrange the next step.` : get('message') };
+    if (!inquiry.name || inquiry.name.length > 120 || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(inquiry.email) || inquiry.email.length > 254 || !inquiry.message || inquiry.message.length > 4000 || inquiry.organization.length > 160 || inquiry.phone.length > 40 || (inquiry.interest && !assessment && !services.some(s => s.id === inquiry.interest))) return NextResponse.json({ error: 'Please check your name, email, and message, then try again.' }, { status: 400 });
     // Google Workspace is the approved delivery method. Legacy webhook delivery
     // must be explicitly selected rather than silently becoming the fallback.
     const deliveryMode = process.env.INQUIRY_DELIVERY?.trim().toLowerCase() || 'google-smtp';

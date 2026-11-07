@@ -3,7 +3,7 @@ import { services } from '../src/lib/content.ts';
 import { readFile } from 'node:fs/promises';
 import { stripTypeScriptTypes } from 'node:module';
 const base = 'http://127.0.0.1:3000';
-const paths = ['/', '/services', '/about', '/contact', '/industries', '/privacy', ...services.map(s => `/services/${s.slug}`)];
+const paths = ['/', '/services', '/about', '/contact', '/industries', '/privacy', '/secure-ai', ...services.map(s => `/services/${s.slug}`)];
 const titles = new Set();
 for (const path of paths) {
   const response = await fetch(base + path);
@@ -41,6 +41,6 @@ try {
   assert(robots().rules.disallow.includes('/privacy')); assert(!sitemap().some(s => s.url.endsWith('/privacy')));
   process.env.PRIVACY_POLICY_APPROVED = 'true';
   assert.deepEqual(robots().rules.disallow, ['/api/']); assert(sitemap().some(s => s.url.endsWith('/privacy')));
-  assert.equal(sitemap().length, 13); assert(sitemap().every(s => s.url.startsWith('https://rnbcloud.com')));
+  assert.equal(sitemap().length, 14); assert(sitemap().every(s => s.url.startsWith('https://rnbcloud.com')));
 } finally { for (const [key,value] of Object.entries(saved)) { if (value === undefined) delete process.env[key]; else process.env[key] = value; } }
-console.log('PASS: 13 unique titles, descriptions and apex canonicals, Organization/Person/Service/Breadcrumb schema, service OG URLs, four redirects, preview robots isolation, and production privacy/sitemap approval gates. Live hostname and DNS remain staging/cutover checks.');
+console.log('PASS: 14 unique titles, descriptions and apex canonicals, Organization/Person/Service/Breadcrumb schema, service OG URLs, four redirects, preview robots isolation, and production privacy/sitemap approval gates. Live hostname and DNS remain staging/cutover checks.');

@@ -29,7 +29,7 @@ function secureAiConversion(detail: Record<string, unknown>) {
     tab_name: ['general_office', 'law', 'cpa', 'retail', 'manufacturing'],
     quiz_id: ['ai_readiness_check'], cta_id: ['assessment', 'readiness_check', 'booking'],
     provider: ['google_appointment_schedule'],
-    cta_location: ['hero', 'quiz_result', 'talk', 'final', 'nav', 'banner'],
+    cta_location: ['hero', 'quiz_result', 'talk', 'final', 'nav', 'banner', 'ai_services_callout'],
   };
   for (const [key, values] of Object.entries(allowed)) {
     if (typeof detail[key] === 'string' && values.includes(detail[key])) parameters[key] = detail[key];

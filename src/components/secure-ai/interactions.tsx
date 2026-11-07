@@ -28,7 +28,7 @@ export function ReadinessQuiz() {
   }
   return <div className="sa-quiz-card">
     <div aria-live="polite" aria-atomic="true">
-      {complete ? <><p className={`sa-result-band sa-band-${band}`}>{result.band}</p><h3 ref={heading} tabIndex={-1}>{result.title}</h3><p>{result.lead}</p><ul className="sa-takeaways"><li>{result.sec}</li><li>{FOCUS[focus]}</li><li>Start with a 30-minute Google Meet conversation to discuss your business and scope the Assessment.</li></ul></> : <><div className="sa-progress" aria-hidden="true">{QUESTIONS.map((_, i) => <span key={i} className={i <= step ? 'filled' : ''} />)}</div><p className="sa-meta">Question {step + 1} of 5</p><h3 ref={heading} tabIndex={-1} id="sa-question">{QUESTIONS[step].q}</h3></>}
+      {complete ? <><p className={`sa-result-band sa-band-${band}`}>{result.band}</p><h3 ref={heading} tabIndex={-1}>{result.title}</h3><p>{result.lead}</p><ul className="sa-takeaways"><li>{result.sec}</li><li>{FOCUS[focus]}</li><li>Book a 30-minute Google Meet conversation to discuss your business and scope the Assessment.</li></ul></> : <><div className="sa-progress" aria-hidden="true">{QUESTIONS.map((_, i) => <span key={i} className={i <= step ? 'filled' : ''} />)}</div><p className="sa-meta">Question {step + 1} of 5</p><h3 ref={heading} tabIndex={-1} id="sa-question">{QUESTIONS[step].q}</h3></>}
     </div>
     {complete ? <div className="actions"><AssessmentBookingLink location="quiz_result" /><button type="button" className="button button-secondary" onClick={() => { setAnswers([]); setStep(0); setComplete(false); started.current = false; }}>Retake the check</button></div> : <><div className="sa-options" role="group" aria-labelledby="sa-question">{QUESTIONS[step].opts.map((option, i) => <button type="button" key={`${step}-${i}`} className={answers[step] === i ? 'selected' : ''} onClick={() => choose(i)}>{option.label}</button>)}</div>{step > 0 && <button type="button" className="sa-back" onClick={() => { changed.current = true; setStep(step - 1); }}><ArrowLeft size={16} aria-hidden="true" />Back</button>}<p className="sa-small sa-quiz-privacy">Helpful self-check only, not a security audit. For a full picture, book the Assessment.</p></>}
     <noscript>This check needs JavaScript. Call 502-440-1380 for help assessing your AI setup.</noscript>
@@ -44,7 +44,7 @@ export function IndustryTabs() {
     event.preventDefault(); select(event.key === 'Home' ? 0 : event.key === 'End' ? tabs.length - 1 : (index + (event.key === 'ArrowRight' ? 1 : -1) + tabs.length) % tabs.length, true);
   }
   return <><div className="sa-tabs" role="tablist" aria-label="Industry examples">{tabs.map(([key, title], i) => <button key={key} ref={el => { buttons.current[i] = el; }} id={`sa-tab-${key}`} role="tab" aria-selected={selected === key} aria-controls={`sa-panel-${key}`} tabIndex={selected === key ? 0 : -1} onClick={() => select(i)} onKeyDown={event => keydown(event, i)}>{title}</button>)}</div>
-    {tabs.map(([key]) => <div key={key} id={`sa-panel-${key}`} role="tabpanel" aria-labelledby={`sa-tab-${key}`} tabIndex={0} hidden={selected !== key}><div className="sa-examples">{INDUSTRIES[key].items.map(([title, description]) => <article key={title}><h3>{title}</h3><p>{description}</p></article>)}</div><p className="sa-safe-note">{INDUSTRIES[key].safe}</p></div>)}<p className="sa-small sa-example-note">Examples are illustrative. We do not claim specific hour savings per task. Attorneys and CPAs: AI drafts support your review; you stay accountable for the final work product.</p></>;
+    {tabs.map(([key]) => <div key={key} id={`sa-panel-${key}`} role="tabpanel" aria-labelledby={`sa-tab-${key}`} tabIndex={0} hidden={selected !== key}><div className="sa-examples">{INDUSTRIES[key].items.map(([title, description]) => <article key={title}><h3>{title}</h3><p>{description}</p></article>)}</div><p className="sa-safe-note">{INDUSTRIES[key].safe}</p></div>)}<p className="sa-small sa-example-note">Examples are illustrative. Attorneys and CPAs: AI drafts support your review; you stay accountable for the final work product.</p></>;
 }
 export function SecureAiFaq() {
   const [open, setOpen] = useState<number | null>(null);
@@ -75,7 +75,7 @@ export function AssessmentForm() {
     <label>Company *<input name="organization" required maxLength={160} autoComplete="organization" /></label>
     <label>Email *<input name="email" type="email" required maxLength={254} autoComplete="email" /></label>
     <label>Phone *<input name="phone" type="tel" required maxLength={40} autoComplete="tel" /></label>
-    <label>Employee count *<select name="employeeCount" required defaultValue=""><option value="">Select…</option>{['1-3', '4-10', '11-50', '51+'].map(value => <option key={value}>{value}</option>)}</select></label>
+    <label>Employee count *<select name="employeeCount" required defaultValue=""><option value="">Select…</option>{['1-10', '11-25', '26-50'].map(value => <option key={value}>{value}</option>)}</select></label>
     <label className="honeypot" aria-hidden="true">Website<input name="website" tabIndex={-1} autoComplete="off" /></label>
   </div><p className="sa-small">We’ll use your contact details to arrange an Assessment conversation. Your quiz answers are not included. <Link href="/privacy">Privacy Policy</Link></p><InquiryVerification reset={reset} />{error && <p role="alert" tabIndex={-1} ref={errorElement}>{error}</p>}<button className="button button-light" disabled={pending} type="submit">{pending ? 'Sending…' : 'Request an Assessment conversation'}</button></form>;
 }
@@ -83,14 +83,7 @@ export function AssessmentForm() {
 export function SecureAiTracking() {
   useEffect(() => {
     const timer = setTimeout(() => signalSecureAi('secure_ai_page_view'), 0);
-    function click(event: MouseEvent) {
-      const anchor = (event.target as Element)?.closest?.('a');
-      if (!anchor || !anchor.closest('.secure-ai')) return;
-      if (anchor.getAttribute('href') === '#book') signalSecureAi('cta_click', { cta_id: 'assessment' });
-      else if (anchor.getAttribute('href') === '#quiz') signalSecureAi('cta_click', { cta_id: 'readiness_check' });
-    }
-    document.addEventListener('click', click);
-    return () => { clearTimeout(timer); document.removeEventListener('click', click); };
+    return () => clearTimeout(timer);
   }, []);
   return null;
 }

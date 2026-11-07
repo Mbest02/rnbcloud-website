@@ -105,7 +105,7 @@ export const secureAiFaqs = [
   ],
   [
     "Is AI actually safe for client data?",
-    "It can be when you use company accounts, an approved tool, and clear rules about what data is off-limits. That’s what Guardrails and Secure Enable are for. The Assessment is read-only and shows where you stand today."
+    "It can be when you use company accounts, an approved tool, and clear rules about what data is off-limits. We help put those protections in place before your team gets started. The Assessment is read-only and shows where you stand today."
   ],
   [
     "Which AI tool should we use: ChatGPT, Copilot, or Gemini?",
@@ -113,7 +113,7 @@ export const secureAiFaqs = [
   ],
   [
     "What happens during the Assessment?",
-    "The AI Security & Readiness Assessment is read-only. We don’t change your systems. We identify which AI tools your staff already use and where company data may be at risk. You receive a written scorecard and a live readout with the owner. If you continue with a plan afterward, the Assessment fee is credited toward that plan."
+    "The AI Security & Readiness Assessment is read-only. We don’t change your systems. We identify which AI tools your staff already use and where company data may be at risk. You receive a written scorecard and a live readout with the owner."
   ],
   [
     "What does it cost?",
@@ -125,7 +125,7 @@ export const secureAiFaqs = [
   ],
   [
     "How long until we see results?",
-    "We don’t invent timelines. After the Assessment, Guardrails puts an approved tool and policy in place. Secure Enable adds company accounts, live training, and 2-3 saved workflows per role. That’s when most teams start feeling day-to-day time savings. Growth Partner adds ongoing check-ins and deeper workflows each quarter."
+    "After the Assessment, we agree on the next steps for your team. We put an approved tool and clear policy in place, then add company accounts, hands-on training, and practical workflows. We review what helps and improve it over time."
   ]
 ];
 

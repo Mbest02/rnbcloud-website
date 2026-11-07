@@ -11,7 +11,7 @@ export function ConversionEvents() {
       if (!link) return;
       const url = new URL(link.href, window.location.origin);
       const location = link.dataset.secureAiBooking;
-      if (link.href === SECURE_AI_BOOKING_URL && location && ['hero', 'quiz_result', 'talk', 'final', 'nav', 'banner'].includes(location)) {
+      if (link.href === SECURE_AI_BOOKING_URL && location && ['hero', 'quiz_result', 'talk', 'final', 'nav', 'banner', 'ai_services_callout'].includes(location)) {
         signalSecureAi('cta_click', { provider: 'google_appointment_schedule', cta_location: location as BookingLocation });
       } else if (url.protocol === 'tel:') signalConversion('phone_click');
       else if (url.protocol === 'sms:') signalConversion('text_click');

@@ -30,11 +30,11 @@ const { POST } = await importSource(routeSource);
 const { NextRequest } = await import(nextServer);
 Object.assign(process.env, { INQUIRY_DELIVERY: 'google-smtp', GOOGLE_SMTP_USER: 'qa@example.com', GOOGLE_SMTP_APP_PASSWORD: 'qa-only', TURNSTILE_SECRET_KEY: 'qa-only', NEXT_PUBLIC_TURNSTILE_SITE_KEY: 'qa-only' });
 globalThis.fetch = async () => Response.json({ success: true, hostname: 'rnbcloud-website.vercel.app', action: 'sales_inquiry' });
-const valid = { name: 'QA Example', organization: 'QA Company', email: 'qa@example.com', phone: '502-555-0100', employeeCount: '4-10', interest: 'secure-ai', 'cf-turnstile-response': 'qa-token' };
+const valid = { name: 'QA Example', organization: 'QA Company', email: 'qa@example.com', phone: '502-555-0100', employeeCount: '1-10', interest: 'secure-ai', 'cf-turnstile-response': 'qa-token' };
 async function post(extra = {}, origin = 'https://rnbcloud-website.vercel.app') { received = undefined; return POST(new NextRequest('https://rnbcloud-website.vercel.app/api/inquiry', { method: 'POST', headers: { origin, 'content-type': 'application/json' }, body: JSON.stringify({ ...valid, ...extra }) })); }
 assert.equal((await post()).status, 200);
 assert.equal(received.interest, 'secure-ai');
-assert(received.message.includes('Employee count: 4-10'));
+assert(received.message.includes('Employee count: 1-10'));
 assert(received.message.includes('Assessment conversation request'));
 assert(!received.message.includes('Staff AI use'));
 assert(!received.message.includes('Busywork focus'));
@@ -49,7 +49,7 @@ assert.equal(mails.length, 2);
 assert(mails[0].subject.includes('Assessment'));
 assert(mails[1].subject.includes('Assessment request received'));
 assert(mails[1].text.includes('not a confirmed booking'));
-assert(mails[1].text.includes('fee is credited toward that plan'));
+assert(!mails[1].text.includes('fee is credited'));
 assert(!/\$\d|90 days|per.user|pricing/i.test(mails[1].text));
 assert(!mails[1].text.includes(valid.name));
 console.log('PASS: all result boundaries, quiz scoring/order, five industries, eight FAQs, aggregate-only analytics, Assessment validation/origin checks, employee-count delivery and acknowledgment without survey disclosure. No real emails sent.');
@@ -69,7 +69,7 @@ assert.equal(analyticsConversion({ name: 'pricing_view' }), null);
 assert(!/request-pricing|90 days|priceCurrency/.test(pageSource));
 console.log('PASS: funnel section order and removal of pricing analytics.');
 
-for (const cta_location of ['hero', 'quiz_result', 'talk', 'final', 'nav', 'banner']) {
+for (const cta_location of ['hero', 'quiz_result', 'talk', 'final', 'nav', 'banner', 'ai_services_callout']) {
   assert.deepEqual(analyticsConversion({ name: 'cta_click', provider: 'google_appointment_schedule', cta_location, email: 'private@example.com' }), { name: 'cta_click', parameters: { service: 'secure-ai', provider: 'google_appointment_schedule', cta_location } });
 }
 assert.deepEqual(analyticsConversion({ name: 'cta_click', cta_location: 'private@example.com' }), { name: 'cta_click', parameters: { service: 'secure-ai' } });
@@ -101,7 +101,24 @@ globalThis.Element = class { constructor(location) { this.href = bookingConfig.S
 globalThis.bookingEvents = [];
 const { ConversionEvents } = await importSource(handlerSource);
 ConversionEvents();
-for (const location of ['hero', 'quiz_result', 'talk', 'final', 'nav', 'banner']) onClick({ target: new Element(location) });
-assert.equal(bookingEvents.length, 6);
-bookingEvents.forEach((event, index) => assert.deepEqual(event, { name: 'cta_click', parameters: { provider: 'google_appointment_schedule', cta_location: ['hero', 'quiz_result', 'talk', 'final', 'nav', 'banner'][index] } }));
+for (const location of ['hero', 'quiz_result', 'talk', 'final', 'nav', 'banner', 'ai_services_callout']) onClick({ target: new Element(location) });
+assert.equal(bookingEvents.length, 7);
+bookingEvents.forEach((event, index) => assert.deepEqual(event, { name: 'cta_click', parameters: { provider: 'google_appointment_schedule', cta_location: ['hero', 'quiz_result', 'talk', 'final', 'nav', 'banner', 'ai_services_callout'][index] } }));
 console.log('PASS: actual global click handler emits one booking event with the exact provider and location for each entry point.');
+
+for (const hash of ['#book', '#quiz']) {
+  const target = new Element('hero');
+  target.href = 'https://rnbcloud.com/secure-ai' + hash;
+  onClick({ target });
+}
+assert.equal(bookingEvents.length, 7, 'In-page links must not emit booking CTA events');
+for (const employeeCount of ['1-10', '11-25', '26-50']) assert.equal((await post({ employeeCount })).status, 200);
+for (const employeeCount of ['1-3', '4-10', '11-50', '51+']) assert.equal((await post({ employeeCount })).status, 400);
+const denied = await post({}, 'https://untrusted.example');
+assert((await denied.json()).error.includes('support@rnbcloud.com'));
+assert(!secureAiFaqs.flat().join(' ').match(/Guardrails|Secure Enable|Growth Partner|invent timelines/));
+assert(!interactions.includes('We do not claim specific hour savings per task.'));
+assert(!interactions.slice(interactions.indexOf('export function SecureAiTracking')).includes('cta_click'));
+assert(!pageSource.includes('Your answers stay in this browser.'));
+assert(pageSource.includes("AI.{' '}<br />"));
+console.log('PASS: section links do not count as bookings, corrected employee bands, contact error fallback and reviewed FAQ/quiz copy.');
